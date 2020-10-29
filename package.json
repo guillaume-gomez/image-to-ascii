@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --devtool source-map --watch"
   },
   "dependencies": {
     "ts-loader": "^8.0.7",
