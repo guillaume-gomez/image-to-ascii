@@ -2,10 +2,8 @@ function toGrayScale(red: number, green: number, blue: number) : number {
   return 0.21 * red + 0.72 * green + 0.07 * blue;
 }
 
-export function convertToGrayScales(context: CanvasRenderingContext2D, width: number, height: number) : number[] {
-  const imageData : ImageData = context.getImageData(0, 0, width, height);
+export function convertToGrayScales(imageData: ImageData) : [number[], ImageData] {
   const grayScales : number[] = [];
-
   for (let i = 0 ; i < imageData.data.length ; i += 4) {
       const red = imageData.data[i];
       const green = imageData.data[i + 1];
@@ -16,8 +14,5 @@ export function convertToGrayScales(context: CanvasRenderingContext2D, width: nu
 
       grayScales.push(grayScale);
   }
-
-  context.putImageData(imageData, 0, 0);
-
-  return grayScales;
+  return [grayScales, imageData];
 };

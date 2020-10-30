@@ -1,17 +1,18 @@
 import React, { useState } from "react";
+import useImageData from "./ImageDataReducer";
 import CanvasImage from "./CanvasImage";
 
 interface ImageConverterToAsciiInterface {
 }
 
 function ImageConverterToAscii({}: ImageConverterToAsciiInterface): React.ReactElement {
-  const [file, setFile] = useState<File | null>(null);
+  const { pixels, imageData, width, height, readFile } = useImageData();
 
   function onChangeFile(event: React.ChangeEvent<HTMLInputElement>) {
     // get files
     const files = event.target.files as FileList;
     const file = files[0];
-    setFile(file);
+    readFile(file);
   }
 
   return (
@@ -19,7 +20,7 @@ function ImageConverterToAscii({}: ImageConverterToAsciiInterface): React.ReactE
       <p>
         <input type="file" onChange={onChangeFile} />
       </p>
-      <CanvasImage file={file} width={500} height={500}/>
+      <CanvasImage imageData={imageData} width={width} height={height}/>
     </>
   );
 }
