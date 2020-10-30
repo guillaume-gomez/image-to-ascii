@@ -21,6 +21,9 @@
 
 
 .App-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border: 2px solid blue;
   min-height: 10vh;
 }
