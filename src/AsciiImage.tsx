@@ -4,16 +4,20 @@ const grayRamp : string = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+
 const rampLength : number = grayRamp.length;
 
 interface AsciiImageInterface {
+  pixels: number[] | null;
+  width: number;
 }
 
-function AsciiImage({}: AsciiImageInterface): React.ReactElement {
-  const [asciiData, setAsciiData] = useState<string | null>(null);
+function AsciiImage({pixels, width}: AsciiImageInterface): React.ReactElement {
 
   function getCharacterForGrayScale(grayScale: number) {
     return grayRamp[Math.ceil((rampLength - 1) * grayScale / 255)];
   }
 
-  function drawAscii(grayScales : number[], width: number) : string {
+  function drawAscii(grayScales : number[] | null, width: number) : string {
+    if(!grayScales) {
+      return "";
+    }
     return grayScales.reduce((asciiImage : string, grayScale : number, index : number) => {
       let nextChars = getCharacterForGrayScale(grayScale);
 
@@ -27,7 +31,7 @@ function AsciiImage({}: AsciiImageInterface): React.ReactElement {
 
   return (
     <pre>
-      {asciiData}
+      {drawAscii(pixels, width)}
     </pre>
   );
 }

@@ -20,35 +20,30 @@ function useImageData(state : initialStateInterface = initialState) {
   
   function readFile(file: File) {
     //create temporary canvas
-    console.log("coucou")
     let canvas = document.createElement("canvas");
-    console.log("bite")
     let context = canvas.getContext("2d") as CanvasRenderingContext2D;
     const reader : FileReader = new FileReader();
     reader.onload = (event: Event) => {
-      console.log("image")
       const image : HTMLImageElement = new Image();
       image.onload = () => {
-        console.log("teub")
+        canvas.height = image.height;
+        canvas.width = image.width;
+        context.drawImage(image, 0, 0);
+
+        const iData : ImageData = context.getImageData(0, 0, image.width, image.height);
+        const [pixels, imageDataModified] = convertToGrayScales(iData);
+        
         setWidth(image.width);
         setHeight(image.height);
-        console.log(image.width);
-        console.log(image.height);
-        canvas.width = image.width;
-        canvas.height = image.height;
-
-        context.drawImage(image, 0, 0);
-        console.log(image)
-        const iData : ImageData = context.getImageData(0, 0, image.width, image.height);
-        
-        const [pixels, imageDataModified] = convertToGrayScales(iData);
         setPixels(pixels);
         setImageData(imageDataModified);
       }
       if(reader.result) {
-            image.src = reader.result as string;
-          }
+        // call image onload event
+        image.src = reader.result as string;
+      }
     };
+    // close the reader
     reader.readAsDataURL(file);
     setFile(file);
   }
