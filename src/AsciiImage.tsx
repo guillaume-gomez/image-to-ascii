@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import './AsciiImage.css';
+
 
 const grayRamp : string = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,"^`\'. ';
 const rampLength : number = grayRamp.length;
@@ -30,7 +32,7 @@ function AsciiImage({pixels, width}: AsciiImageInterface): React.ReactElement {
   }
 
   return (
-    <pre>
+    <pre className="Ascii-content">
       {drawAscii(pixels, width)}
     </pre>
   );

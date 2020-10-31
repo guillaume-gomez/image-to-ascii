@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { convertToGrayScales } from "./tools";
+import { convertToGrayScales, clampDimensions } from "./tools";
 
 interface initialStateInterface {
   pixels: number[];
@@ -26,15 +26,17 @@ function useImageData(state : initialStateInterface = initialState) {
     reader.onload = (event: Event) => {
       const image : HTMLImageElement = new Image();
       image.onload = () => {
-        canvas.height = image.height;
-        canvas.width = image.width;
-        context.drawImage(image, 0, 0);
+        const [widthMax, heightMax] = clampDimensions(image.width, image.height);
+        
+        canvas.height = heightMax;
+        canvas.width = widthMax;
+        context.drawImage(image, 0, 0, widthMax, heightMax);
 
-        const iData : ImageData = context.getImageData(0, 0, image.width, image.height);
+        const iData : ImageData = context.getImageData(0, 0, widthMax, heightMax);
         const [pixels, imageDataModified] = convertToGrayScales(iData);
         
-        setWidth(image.width);
-        setHeight(image.height);
+        setWidth(widthMax);
+        setHeight(heightMax);
         setPixels(pixels);
         setImageData(imageDataModified);
       }
