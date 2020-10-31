@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { convertToGrayScales, clampDimensions } from "./tools";
+import { clampDimensions, convertToGrayScales, makeImageData } from "./pipeline";
 
 interface initialStateInterface {
   file: File | null;
@@ -11,30 +11,17 @@ const initialState : initialStateInterface = {
 
 function useImageData(state : initialStateInterface = initialState) {
   const [file, setFile] = useState<File| null>(state.file);
-  const [width, setWidth] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
-  const [imageData, setImageData] = useState<ImageData|null>(null);
+  const [image, setImage] = useState< ImageData | null>(null);
   
   function readFile(file: File) {
-    //create temporary canvas
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d") as CanvasRenderingContext2D;
     const reader : FileReader = new FileReader();
     reader.onload = (event: Event) => {
       const image : HTMLImageElement = new Image();
       image.onload = () => {
-        const [widthMax, heightMax] = clampDimensions(image.width, image.height);
-        
-        canvas.height = heightMax;
-        canvas.width = widthMax;
-        context.drawImage(image, 0, 0, widthMax, heightMax);
-
-        const iData : ImageData = context.getImageData(0, 0, widthMax, heightMax);
+        const { width, height } : ImageData = clampDimensions({ data: new Uint8ClampedArray(), width: image.width, height: image.height });
+        const iData : ImageData = makeImageData(image, width, height);
         const imageDataModified = convertToGrayScales(iData);
-        
-        setWidth(widthMax);
-        setHeight(heightMax);
-        setImageData(imageDataModified);
+        setImage(imageDataModified);
       }
       if(reader.result) {
         // call image onload event
@@ -46,7 +33,7 @@ function useImageData(state : initialStateInterface = initialState) {
     setFile(file);
   }
 
-  return { imageData, readFile, width, height };
+  return { image, readFile };
 }
 
 export default useImageData;

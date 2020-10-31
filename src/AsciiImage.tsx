@@ -9,10 +9,9 @@ const rampLength : number = grayRamp.length;
 
 interface AsciiImageInterface {
   imageData: ImageData | null;
-  width: number;
 }
 
-function AsciiImage({imageData, width}: AsciiImageInterface): React.ReactElement {
+function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
 
   function getCharacterForGrayScale(grayScale: number) {
     return grayRamp[Math.ceil((rampLength - 1) * grayScale / 255)];
@@ -32,7 +31,7 @@ function AsciiImage({imageData, width}: AsciiImageInterface): React.ReactElement
   }
 
 
-  function drawAscii(imageData : ImageData | null, width: number) : string {
+  function drawAscii(imageData : ImageData | null) : string {
     if(!imageData) {
       return "";
     }
@@ -42,7 +41,7 @@ function AsciiImage({imageData, width}: AsciiImageInterface): React.ReactElement
     return grayScales.reduce((asciiImage : string, grayScale : number, index : number) => {
       let nextChars = getCharacterForGrayScale(grayScale);
 
-      if ((index + 1) % width === 0) {
+      if ((index + 1) % imageData.width === 0) {
           nextChars += '\n';
       }
 
@@ -52,7 +51,7 @@ function AsciiImage({imageData, width}: AsciiImageInterface): React.ReactElement
 
   return (
     <pre className="Ascii-content">
-      {drawAscii(imageData, width)}
+      {drawAscii(imageData)}
     </pre>
   );
 }

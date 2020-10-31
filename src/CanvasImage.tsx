@@ -3,11 +3,9 @@ import { convertToGrayScales } from "./tools";
 
 interface CanvasImageInterface {
   imageData: ImageData | null;
-  width: number;
-  height: number;
 }
 
-function CanvasImage({ imageData, width, height }: CanvasImageInterface): React.ReactElement {
+function CanvasImage({ imageData }: CanvasImageInterface): React.ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -21,8 +19,12 @@ function CanvasImage({ imageData, width, height }: CanvasImageInterface): React.
     }
   }, [imageData]);
 
+  if(!imageData) {
+    return <></>;
+  }
+
   return (
-    <canvas width={width} height={height} ref={canvasRef}></canvas>
+    <canvas width={imageData.width} height={imageData.height} ref={canvasRef}></canvas>
   );
 }
 

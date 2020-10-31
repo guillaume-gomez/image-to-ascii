@@ -8,7 +8,7 @@ interface ImageConverterToAsciiInterface {
 }
 
 function ImageConverterToAscii({}: ImageConverterToAsciiInterface): React.ReactElement {
-  const { imageData, width, height, readFile } = useImageData();
+  const { image, readFile } = useImageData();
 
   function onChangeFile(event: React.ChangeEvent<HTMLInputElement>) {
     // get files
@@ -22,9 +22,9 @@ function ImageConverterToAscii({}: ImageConverterToAsciiInterface): React.ReactE
       <p>
         <input type="file" onChange={onChangeFile} />
       </p>
-      <CanvasImage imageData={imageData} width={width} height={height}/>
+      <CanvasImage imageData={image}/>
       <hr/>
-      <AsciiImage imageData={imageData} width={width} />
+      <AsciiImage imageData={image} />
     </>
   );
 }
