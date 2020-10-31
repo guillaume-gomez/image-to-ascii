@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { convertToGrayScales } from "./tools";
+import { convertToGrayScales } from "./pipeline";
 
 interface CanvasImageInterface {
   imageData: ImageData | null;

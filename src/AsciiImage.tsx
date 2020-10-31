@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toGrayScale } from "./tools";
+import { toGrayScale } from "./pipeline";
 
 import './AsciiImage.css';
 

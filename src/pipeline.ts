@@ -1,8 +1,10 @@
+import RgbQuant from "rgbquant";
+
 const MAXIMUM_WIDTH = 80;
 const MAXIMUM_HEIGHT = 80;
 
 
-function toGrayScale(red: number, green: number, blue: number) : number {
+export function toGrayScale(red: number, green: number, blue: number) : number {
   return 0.21 * red + 0.72 * green + 0.07 * blue;
 }
 
@@ -47,6 +49,10 @@ export function convertToGrayScales(image: ImageData) : ImageData {
   return new ImageData(rawImage, image.width, image.height);
 };
 
+export function quantize(image: ImageData, nbColor: number)  {
+
+}
+
 
 export function makeImageData(image: HTMLImageElement, width: number, height: number) : ImageData {
   let canvas = document.createElement("canvas");
@@ -56,3 +62,4 @@ export function makeImageData(image: HTMLImageElement, width: number, height: nu
   context.drawImage(image, 0, 0, width, height);
   return context.getImageData(0, 0, width, height);
 }
+
