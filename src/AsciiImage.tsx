@@ -1,6 +1,5 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import { toGrayScale, pixels } from "./pipeline";
-import loader from "./loader.gif";
 
 import './AsciiImage.css';
 
@@ -64,7 +63,7 @@ function AsciiImage({ imageData, colorize, processing }: AsciiImageInterface): R
     }
     const grayScales = convertImageDataToGreyPixels(imageData);
     const _pixels : number[][] = pixels(imageData);
-    if(grayScales.length != _pixels.length) {
+    if(grayScales.length !== _pixels.length) {
       return <></>;
     }
 

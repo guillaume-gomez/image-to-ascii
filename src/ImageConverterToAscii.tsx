@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useImageData from "./useImageData";
 import CanvasImage from "./CanvasImage";
 import AsciiImage from "./AsciiImage";
@@ -7,10 +7,7 @@ import RenderOptionForm from "./RenderOptionForm";
 
 import "./ImageConverterToAscii.css";
 
-interface ImageConverterToAsciiInterface {
-}
-
-function ImageConverterToAscii({}: ImageConverterToAsciiInterface): React.ReactElement {
+function ImageConverterToAscii(): React.ReactElement {
   const { image, readFile, processing, configuration, setConfigurationParam } = useImageData();
 
   function onChangeFile(event: React.ChangeEvent<HTMLInputElement>) {

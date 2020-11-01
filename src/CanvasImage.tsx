@@ -1,5 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
-import { convertToGrayScales } from "./pipeline";
+import React, { useRef, useEffect } from "react";
 
 import "./CanvasImage.css";
 
