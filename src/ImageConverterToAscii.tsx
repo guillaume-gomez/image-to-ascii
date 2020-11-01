@@ -14,7 +14,9 @@ function ImageConverterToAscii(): React.ReactElement {
     // get files
     const files = event.target.files as FileList;
     const file = files[0];
-    readFile(file);
+    if(file) {
+      readFile(file);
+    }
   }
 
   return (
