@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { toGrayScale, pixels } from "./pipeline";
 
 import './AsciiImage.css';
@@ -9,17 +9,17 @@ const rampLength : number = grayRamp.length;
 
 interface AsciiImageInterface {
   imageData: ImageData | null;
-  colorize: boolean
+  colorize: boolean;
+  processing: boolean;
 }
 
-function AsciiImage({ imageData, colorize }: AsciiImageInterface): React.ReactElement {
+function AsciiImage({ imageData, colorize, processing }: AsciiImageInterface): React.ReactElement {
+  const drawAsciiMemo = useMemo(() => drawAscii(imageData), [imageData]);
+  const drawAsciiWithColorMemo = useMemo( () => drawAsciiWithColor(imageData), [imageData]);
 
   function getCharacterForGrayScale(grayScale: number) {
     return grayRamp[Math.ceil((rampLength - 1) * grayScale / 255)];
   }
-
-  const drawAsciiMemo = useMemo(() => drawAscii(imageData), [imageData]);
-  const drawAsciiWithColorMemo = useMemo( () => drawAsciiWithColor(imageData), [imageData]);
 
   function convertImageDataToGreyPixels(imageData: ImageData) : number[] {
     let pixelsInGrey : number[] = [];
@@ -38,7 +38,6 @@ function AsciiImage({ imageData, colorize }: AsciiImageInterface): React.ReactEl
     const [red, green, blue] = pixel;
     return `rgb(${red}, ${green}, ${blue})`;
   }
-
 
   function drawAscii(imageData : ImageData | null) : string {
     console.log("drawAscii");
@@ -80,6 +79,9 @@ function AsciiImage({ imageData, colorize }: AsciiImageInterface): React.ReactEl
     return result;
   }
 
+  if(processing) {
+    return <>Work in progress...</>
+  }
 
   return (
     <pre className="Ascii-content">

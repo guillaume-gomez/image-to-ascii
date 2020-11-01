@@ -7,7 +7,7 @@ interface FormInterface {
 }
 
 function Form({ configuration, setConfigurationParam }: FormInterface): React.ReactElement {
-  const { maxWidth, maxHeight, colors, colorize, autoScale } = configuration;
+  const { maxWidth, maxHeight, colors, colorizeImage, autoScale } = configuration;
   return (
     <div id="form">
         <div className="slidecontainer">
@@ -23,14 +23,14 @@ function Form({ configuration, setConfigurationParam }: FormInterface): React.Re
            <input type="checkbox" name="autoscale" id="autoscale" checked={autoScale} onChange={e => setConfigurationParam("autoScale", !!e.target.checked)}/>
         </div>
         <div>
-           <label htmlFor="Colorize">Colorize</label><br/>
-           <input type="checkbox" name="Colorize" id="Colorize" checked={colorize} onChange={e => setConfigurationParam("colorize", !!e.target.checked)}/>
+           <label htmlFor="Colorize">Colorize Image</label><br/>
+           <input type="checkbox" name="Colorize" id="Colorize" checked={colorizeImage} onChange={e => setConfigurationParam("colorizeImage", !!e.target.checked)}/>
         </div>
         <div className="slidecontainer">
           Colors : {colors}
           <input type="range" min={2} max={68} value={colors} className="slider" onChange={e => setConfigurationParam("colors", parseInt(e.target.value))} />
         </div>
-      </div>
+    </div>
   );
 }
 

@@ -5,7 +5,8 @@ export interface ConfigurationInterface {
   maxWidth: number;
   maxHeight: number;
   autoScale: boolean;
-  colorize: boolean;
+  colorizeImage: boolean;
+  colorizeAscii: boolean;
   colors: number;
 }
 
@@ -13,7 +14,7 @@ interface useDataImageInterface {
   configuration: ConfigurationInterface;
   setConfigurationParam: (param: string, value: string | number | boolean) => void;
   image : ImageData | null;
-  computeState: boolean;
+  processing: boolean;
   readFile: (file: File) => void;
 }
 
@@ -27,16 +28,17 @@ const initialState : initialStateInterface = {
 
 function useImageData(state : initialStateInterface = initialState) {
   const [file, setFile] = useState<File| null>(state.file);
-  const [computeState, setComputeState] = useState<boolean>(false)
+  const [processing, setProcessing] = useState<boolean>(false)
   const [image, setImage] = useState< ImageData | null>(null);
   const [configuration, setConfiguration ] = useState<ConfigurationInterface>({
     maxWidth: 80,
     maxHeight: 80,
     autoScale: true,
-    colorize: false,
+    colorizeImage: false,
+    colorizeAscii: false,
     colors: 12,
   });
-  
+
   function readFile(file: File) {
     const reader : FileReader = new FileReader();
     reader.onload = (event: Event) => {
@@ -50,18 +52,18 @@ function useImageData(state : initialStateInterface = initialState) {
 
         const iData : ImageData = makeImageData(image, width, height);
         let imageDataModified = null;
-        if(configuration.colorize) {
+        if(configuration.colorizeImage) {
           imageDataModified = quantize(iData, configuration);
         } else {
           imageDataModified = convertToGrayScales(quantize(iData, configuration), configuration);
         }
         setImage(imageDataModified);
-        setComputeState(false);
+        setProcessing(false);
       }
       if(reader.result) {
         // call image onload event
         image.src = reader.result as string;
-        setComputeState(true);
+        setProcessing(true);
       }
     };
     // close the reader
@@ -73,7 +75,7 @@ function useImageData(state : initialStateInterface = initialState) {
     setConfiguration({...configuration, [param]: value });
   }
 
-  return { image, computeState, readFile, configuration, setConfigurationParam } as useDataImageInterface;
+  return { image, processing, readFile, configuration, setConfigurationParam } as useDataImageInterface;
 }
 
 export default useImageData;
