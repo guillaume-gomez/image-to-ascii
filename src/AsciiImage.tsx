@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toGrayScale } from "./pipeline";
+import { toGrayScale, pixels } from "./pipeline";
 
 import './AsciiImage.css';
 
@@ -18,16 +18,21 @@ function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
   }
 
   function convertImageDataToGreyPixels(imageData: ImageData) : number[] {
-    let pixels = [];
+    let pixelsInGrey : number[] = [];
+
     for (let i = 0 ; i < imageData.data.length ; i += 4) {
       const red = imageData.data[i];
       const green = imageData.data[i + 1];
       const blue = imageData.data[i + 2];
       const grayScale = toGrayScale(red, green, blue);
-     
-      pixels.push(grayScale);
+      pixelsInGrey = [...pixelsInGrey, grayScale];
     }
-    return pixels;
+    return pixelsInGrey;
+  }
+
+  function pixelToCssColor(pixel: number[]) : string {
+    const [red, green, blue] = pixel;
+    return `rgb(${red}, ${green}, ${blue})`;
   }
 
 
@@ -35,23 +40,48 @@ function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
     if(!imageData) {
       return "";
     }
+    const _pixels : number[][] = pixels(imageData);
+    const grayScales = convertImageDataToGreyPixels(imageData);
+    let cssColors : string[] = [];
 
-    const grayScales : number [] = convertImageDataToGreyPixels(imageData);
-
-    return grayScales.reduce((asciiImage : string, grayScale : number, index : number) => {
+    const result = grayScales.reduce((asciiImage : string, grayScale : number, index : number) => {
       let nextChars = getCharacterForGrayScale(grayScale);
 
       if ((index + 1) % imageData.width === 0) {
           nextChars += '\n';
       }
-
+      cssColors = [...cssColors, pixelToCssColor(_pixels[index as number]) ];
       return asciiImage + nextChars;
-    }, '');
+    }, "");
+    return result;
   }
+
+  function drawAsciiWithColor(imageData : ImageData | null ) {
+    if(!imageData) {
+      return "";
+    }
+    const grayScales = convertImageDataToGreyPixels(imageData);
+    const _pixels : number[][] = pixels(imageData);
+    if(grayScales.length != _pixels.length) {
+      return <></>;
+    }
+
+    let result = [];
+
+    for(let index = 0; index < grayScales.length; ++index) {
+      let nextChars = getCharacterForGrayScale(grayScales[index]);
+      if ((index + 1) % imageData.width === 0) {
+          result.push(<br/>);
+      }
+      result.push(<span style={{color: pixelToCssColor(_pixels[index]) }}>{nextChars}</span>);
+    }
+    return result;
+  }
+
 
   return (
     <pre className="Ascii-content">
-      {drawAscii(imageData)}
+      {drawAsciiWithColor(imageData)}
     </pre>
   );
 }

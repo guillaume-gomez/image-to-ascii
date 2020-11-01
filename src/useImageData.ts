@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { clampDimensions, convertToGrayScales, makeImageData } from "./pipeline";
+import { clampDimensions, convertToGrayScales, makeImageData, quantize } from "./pipeline";
 
 interface initialStateInterface {
   file: File | null;
@@ -20,7 +20,7 @@ function useImageData(state : initialStateInterface = initialState) {
       image.onload = () => {
         const { width, height } : ImageData = clampDimensions({ data: new Uint8ClampedArray(), width: image.width, height: image.height });
         const iData : ImageData = makeImageData(image, width, height);
-        const imageDataModified = convertToGrayScales(iData);
+        const imageDataModified = quantize(iData);
         setImage(imageDataModified);
       }
       if(reader.result) {

@@ -1,4 +1,4 @@
-import RgbQuant from "rgbquant";
+let RgbQuant = require('rgbquant');
 
 const MAXIMUM_WIDTH = 80;
 const MAXIMUM_HEIGHT = 80;
@@ -6,6 +6,17 @@ const MAXIMUM_HEIGHT = 80;
 
 export function toGrayScale(red: number, green: number, blue: number) : number {
   return 0.21 * red + 0.72 * green + 0.07 * blue;
+}
+
+export function pixels(image: ImageData) : number[][] {
+  let pixels : number[][] = [];
+  for(let i = 0; i < image.data.length; i += 4) {
+    const red = image.data[i];
+    const green = image.data[i + 1];
+    const blue = image.data[i + 2];
+    pixels = [...pixels, [red, green, blue]];
+  }
+  return pixels;
 }
 
 function getFontRatio() : number {
@@ -49,8 +60,11 @@ export function convertToGrayScales(image: ImageData) : ImageData {
   return new ImageData(rawImage, image.width, image.height);
 };
 
-export function quantize(image: ImageData, nbColor: number)  {
-
+export function quantize(image: ImageData, colors: number = 6) {
+  const rgbquant = new RgbQuant({colors , dithKern: "FloydSteinberg", minHueCols: 0});
+  rgbquant.sample(image.data.slice());
+  const rawImage = rgbquant.reduce(image.data.slice());
+  return new ImageData(Uint8ClampedArray.from(rawImage), image.width, image.height);
 }
 
 

@@ -4,3 +4,7 @@
   font-size: 8px;
   line-height: 1;
 }
+
+.Line-break {
+  white-space: pre-wrap;
+}
