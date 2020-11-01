@@ -81,7 +81,7 @@ function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
 
   return (
     <pre className="Ascii-content">
-      {drawAsciiWithColor(imageData)}
+      {drawAscii(imageData)}
     </pre>
   );
 }

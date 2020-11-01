@@ -1,8 +1,6 @@
+import { ConfigurationInterface } from "./useImageData";
+
 let RgbQuant = require('rgbquant');
-
-const MAXIMUM_WIDTH = 80;
-const MAXIMUM_HEIGHT = 80;
-
 
 export function toGrayScale(red: number, green: number, blue: number) : number {
   return 0.21 * red + 0.72 * green + 0.07 * blue;
@@ -31,23 +29,25 @@ function getFontRatio() : number {
     return height / width;
 };
 
-export function clampDimensions(image: ImageData) : ImageData {
+export function clampDimensions(image: ImageData, configuration: ConfigurationInterface) : ImageData {
+  const { maxWidth, maxHeight } = configuration;
+  
   const rectifiedWidth = Math.floor(getFontRatio() * image.width);
-  if (image.height > MAXIMUM_HEIGHT) {
-    const reducedWidth = Math.floor(rectifiedWidth * MAXIMUM_HEIGHT / image.height);
-    return { ...image, width: reducedWidth, height: MAXIMUM_HEIGHT } as ImageData;
+  if (image.height > maxHeight) {
+    const reducedWidth = Math.floor(rectifiedWidth * maxHeight / image.height);
+    return { ...image, width: reducedWidth, height: maxHeight } as ImageData;
   }
 
-  if (image.width > MAXIMUM_WIDTH) {
-    const reducedHeight = Math.floor(image.height * MAXIMUM_WIDTH / rectifiedWidth);
-    return { ...image, width: MAXIMUM_WIDTH, height: reducedHeight } as ImageData;
+  if (image.width > maxWidth) {
+    const reducedHeight = Math.floor(image.height * maxWidth / rectifiedWidth);
+    return { ...image, width: maxWidth, height: reducedHeight } as ImageData;
   }
 
   return image;
 }
 
 
-export function convertToGrayScales(image: ImageData) : ImageData {
+export function convertToGrayScales(image: ImageData, _configuration: ConfigurationInterface) : ImageData {
   let rawImage: Uint8ClampedArray = image.data.slice();
   for (let i = 0 ; i < rawImage.length ; i += 4) {
     const red = rawImage[i];
@@ -60,7 +60,8 @@ export function convertToGrayScales(image: ImageData) : ImageData {
   return new ImageData(rawImage, image.width, image.height);
 };
 
-export function quantize(image: ImageData, colors: number = 6) {
+export function quantize(image: ImageData, configuration: ConfigurationInterface) {
+  const { colors } = configuration;
   const rgbquant = new RgbQuant({colors , dithKern: "FloydSteinberg", minHueCols: 0});
   rgbquant.sample(image.data.slice());
   const rawImage = rgbquant.reduce(image.data.slice());
