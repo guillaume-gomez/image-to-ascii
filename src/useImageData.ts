@@ -8,11 +8,12 @@ export interface ConfigurationInterface {
   colorizeImage: boolean;
   colorizeAscii: boolean;
   colors: number;
+  backgroundColorAscii: string;
 }
 
 interface useDataImageInterface {
   configuration: ConfigurationInterface;
-  setConfigurationParam: (param: string, value: string | number | boolean) => void;
+  setConfigurationParam: (param: keyof ConfigurationInterface, value: string | number | boolean) => void;
   image : ImageData | null;
   processing: boolean;
   readFile: (file: File) => void;
@@ -37,6 +38,7 @@ function useImageData(state : initialStateInterface = initialState) {
     colorizeImage: false,
     colorizeAscii: false,
     colors: 12,
+    backgroundColorAscii: "#1D2A49"
   });
 
   function readFile(file: File) {

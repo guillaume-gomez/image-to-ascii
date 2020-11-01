@@ -36,7 +36,9 @@ function ImageConverterToAscii(): React.ReactElement {
         </div>
       </div>
       <hr/>
-      <AsciiImage imageData={image} colorize={configuration.colorizeAscii} processing={processing}/>
+      <div id="Ascii-container" style={{ backgroundColor: configuration.backgroundColorAscii }}>
+        <AsciiImage imageData={image} colorize={configuration.colorizeAscii} processing={processing}/>
+      </div>
     </>
   );
 }

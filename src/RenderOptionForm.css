@@ -23,6 +23,26 @@
   margin: 0;
 }
 
+
+.ColorPalette {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  padding: 5px;
+}
+
+.ColorPalette > label {
+  display: flex;
+  align-items: stretch;
+  width: 30%;
+}
+
+#Color-input-container {
+  width: 30%;
+}
+
+
 #hint {
   font-size: 12px;
   font-style: italic;

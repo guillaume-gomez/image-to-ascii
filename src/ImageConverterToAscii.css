@@ -20,6 +20,11 @@
   min-width: 80px;
 }
 
+#Ascii-container {
+  min-height: 200px;
+}
+
 .H2-title {
   text-decoration: underline;
 }
+

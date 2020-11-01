@@ -5,11 +5,11 @@ import "./RenderOptionForm.css";
 
 interface FormInterface {
   configuration: ConfigurationInterface;
-  setConfigurationParam: (param: string, value: string | number | boolean) => void;
+  setConfigurationParam: (param: keyof ConfigurationInterface, value: string | number | boolean) => void;
 }
 
 function RenderOptionForm({ configuration, setConfigurationParam }: FormInterface): React.ReactElement {
-  const { colorizeAscii } = configuration;
+  const { colorizeAscii, backgroundColorAscii } = configuration;
   return (
     <div id="Option">
       <h2 className="H2-title">Options</h2>
@@ -18,6 +18,12 @@ function RenderOptionForm({ configuration, setConfigurationParam }: FormInterfac
            <input type="checkbox" name="Colorize" id="Colorize" checked={colorizeAscii} onChange={e => setConfigurationParam("colorizeAscii", !!e.target.checked)}/>
         </div>
         <p id="hint">Toggle this option can takes time to rerender. Please be patient :) </p>
+        <div className="ColorPalette">
+          <label htmlFor="background-color-ascii">Background color ascii</label>
+          <div id="Color-input-container">
+            <input type="color" id="background-color-ascii" name="background-color-ascii" value={backgroundColorAscii} onChange={e => setConfigurationParam("backgroundColorAscii", e.target.value)} />
+          </div>
+        </div>
     </div>
   );
 }

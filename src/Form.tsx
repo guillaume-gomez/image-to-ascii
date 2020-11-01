@@ -5,7 +5,7 @@ import "./Form.css"
 
 interface FormInterface {
   configuration: ConfigurationInterface;
-  setConfigurationParam: (param: string, value: string | number | boolean) => void;
+  setConfigurationParam: (param: keyof ConfigurationInterface, value: string | number | boolean) => void;
 }
 
 function Form({ configuration, setConfigurationParam }: FormInterface): React.ReactElement {
