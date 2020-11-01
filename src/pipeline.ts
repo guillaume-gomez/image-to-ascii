@@ -30,9 +30,10 @@ function getFontRatio() : number {
 };
 
 export function clampDimensions(image: ImageData, configuration: ConfigurationInterface) : ImageData {
-  const { maxWidth, maxHeight } = configuration;
+  const { maxWidth, maxHeight, autoScale } = configuration;
+  console.log(autoScale)
   
-  const rectifiedWidth = Math.floor(getFontRatio() * image.width);
+  const rectifiedWidth = autoScale ? Math.floor(getFontRatio() * image.width) : image.width;
   if (image.height > maxHeight) {
     const reducedWidth = Math.floor(rectifiedWidth * maxHeight / image.height);
     return { ...image, width: reducedWidth, height: maxHeight } as ImageData;

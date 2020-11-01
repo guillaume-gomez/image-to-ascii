@@ -49,7 +49,12 @@ function useImageData(state : initialStateInterface = initialState) {
         }, configuration);
 
         const iData : ImageData = makeImageData(image, width, height);
-        const imageDataModified = quantize(iData, configuration);
+        let imageDataModified = null;
+        if(configuration.colorize) {
+          imageDataModified = quantize(iData, configuration);
+        } else {
+          imageDataModified = convertToGrayScales(quantize(iData, configuration), configuration);
+        }
         setImage(imageDataModified);
         setComputeState(false);
       }

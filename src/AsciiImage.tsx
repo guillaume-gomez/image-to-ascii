@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { toGrayScale, pixels } from "./pipeline";
 
 import './AsciiImage.css';
@@ -9,13 +9,17 @@ const rampLength : number = grayRamp.length;
 
 interface AsciiImageInterface {
   imageData: ImageData | null;
+  colorize: boolean
 }
 
-function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
+function AsciiImage({ imageData, colorize }: AsciiImageInterface): React.ReactElement {
 
   function getCharacterForGrayScale(grayScale: number) {
     return grayRamp[Math.ceil((rampLength - 1) * grayScale / 255)];
   }
+
+  const drawAsciiMemo = useMemo(() => drawAscii(imageData), [imageData]);
+  const drawAsciiWithColorMemo = useMemo( () => drawAsciiWithColor(imageData), [imageData]);
 
   function convertImageDataToGreyPixels(imageData: ImageData) : number[] {
     let pixelsInGrey : number[] = [];
@@ -37,26 +41,24 @@ function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
 
 
   function drawAscii(imageData : ImageData | null) : string {
+    console.log("drawAscii");
     if(!imageData) {
       return "";
     }
-    const _pixels : number[][] = pixels(imageData);
     const grayScales = convertImageDataToGreyPixels(imageData);
-    let cssColors : string[] = [];
-
     const result = grayScales.reduce((asciiImage : string, grayScale : number, index : number) => {
       let nextChars = getCharacterForGrayScale(grayScale);
 
       if ((index + 1) % imageData.width === 0) {
           nextChars += '\n';
       }
-      cssColors = [...cssColors, pixelToCssColor(_pixels[index as number]) ];
       return asciiImage + nextChars;
     }, "");
     return result;
   }
 
   function drawAsciiWithColor(imageData : ImageData | null ) {
+    console.log("drawAsciiWithColor");
     if(!imageData) {
       return "";
     }
@@ -71,9 +73,9 @@ function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
     for(let index = 0; index < grayScales.length; ++index) {
       let nextChars = getCharacterForGrayScale(grayScales[index]);
       if ((index + 1) % imageData.width === 0) {
-          result.push(<br/>);
+          result.push(<br key={index+"br"} />);
       }
-      result.push(<span style={{color: pixelToCssColor(_pixels[index]) }}>{nextChars}</span>);
+      result.push(<span key={index} style={{color: pixelToCssColor(_pixels[index]) }}>{nextChars}</span>);
     }
     return result;
   }
@@ -81,9 +83,13 @@ function AsciiImage({ imageData }: AsciiImageInterface): React.ReactElement {
 
   return (
     <pre className="Ascii-content">
-      {drawAscii(imageData)}
+      {colorize ?
+       drawAsciiWithColorMemo:
+       drawAsciiMemo
+      }
     </pre>
   );
 }
 
 export default AsciiImage;
+

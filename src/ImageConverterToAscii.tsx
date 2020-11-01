@@ -30,7 +30,7 @@ function ImageConverterToAscii({}: ImageConverterToAsciiInterface): React.ReactE
       </p>
       <CanvasImage imageData={image}/>
       <hr/>
-      <AsciiImage imageData={image} />
+      <AsciiImage imageData={image} colorize={configuration.colorize}/>
     </>
   );
 }

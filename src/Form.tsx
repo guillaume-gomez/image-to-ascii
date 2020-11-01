@@ -20,15 +20,15 @@ function Form({ configuration, setConfigurationParam }: FormInterface): React.Re
         </div>
         <div>
            <label htmlFor="autoscale">Autoscale</label><br/>
-           <input type="checkbox" name="autoscale" id="autoscale" value={autoScale.toString()} onChange={e => setConfigurationParam("autoscale", !!e.target.checked)}/>
+           <input type="checkbox" name="autoscale" id="autoscale" checked={autoScale} onChange={e => setConfigurationParam("autoScale", !!e.target.checked)}/>
         </div>
         <div>
            <label htmlFor="Colorize">Colorize</label><br/>
-           <input type="checkbox" name="Colorize" id="Colorize" value={colorize.toString()} onChange={e => setConfigurationParam("Colorize", !!e.target.checked)}/>
+           <input type="checkbox" name="Colorize" id="Colorize" checked={colorize} onChange={e => setConfigurationParam("colorize", !!e.target.checked)}/>
         </div>
         <div className="slidecontainer">
           Colors : {colors}
-          <input type="range" min={4} max={24} value={colors} className="slider" onChange={e => setConfigurationParam("colors", parseInt(e.target.value))} />
+          <input type="range" min={2} max={68} value={colors} className="slider" onChange={e => setConfigurationParam("colors", parseInt(e.target.value))} />
         </div>
       </div>
   );
