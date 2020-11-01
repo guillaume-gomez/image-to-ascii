@@ -12,7 +12,7 @@ function App() {
         <ImageConverterToAscii />
       </div>
       <footer className="App-footer">
-          Made by Guillaume Gomez
+         Made by Guillaume Gomez
       </footer>
     </div>
   );

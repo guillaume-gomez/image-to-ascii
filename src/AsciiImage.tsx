@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { toGrayScale, pixels } from "./pipeline";
+import loader from "./loader.gif";
 
 import './AsciiImage.css';
 
@@ -80,7 +81,7 @@ function AsciiImage({ imageData, colorize, processing }: AsciiImageInterface): R
   }
 
   if(processing) {
-    return <>Work in progress...</>
+    return <p>Work in progress...</p>
   }
 
   return (

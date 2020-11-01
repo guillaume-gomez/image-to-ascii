@@ -3,7 +3,9 @@ import useImageData from "./useImageData";
 import CanvasImage from "./CanvasImage";
 import AsciiImage from "./AsciiImage";
 import Form from "./Form";
+import RenderOptionForm from "./RenderOptionForm";
 
+import "./ImageConverterToAscii.css";
 
 interface ImageConverterToAsciiInterface {
 }
@@ -20,12 +22,20 @@ function ImageConverterToAscii({}: ImageConverterToAsciiInterface): React.ReactE
 
   return (
     <>
-      <Form configuration={configuration} setConfigurationParam={setConfigurationParam} />
-      <hr />
-      <p>
-        <input type="file" onChange={onChangeFile} />
-      </p>
-      <CanvasImage imageData={image}/>
+      <div id="Forms">
+        <div className="Form-Item">
+          <Form configuration={configuration} setConfigurationParam={setConfigurationParam} />
+          <p>
+            <input type="file" onChange={onChangeFile} />
+          </p>
+        </div>
+        <div className="Form-Item">
+          <RenderOptionForm configuration={configuration} setConfigurationParam={setConfigurationParam} />
+          <div id="Canvas-Container">
+            <CanvasImage imageData={image}/>
+          </div>
+        </div>
+      </div>
       <hr/>
       <AsciiImage imageData={image} colorize={configuration.colorizeAscii} processing={processing}/>
     </>

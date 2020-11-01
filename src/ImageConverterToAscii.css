@@ -1,0 +1,25 @@
+#Forms {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-top: 10px;
+  margin: 0;
+  width: 100%;
+  list-style: none;
+}
+
+.Form-Item {
+  width: 48%;
+}
+
+#Canvas-Container {
+  padding: 10px;
+  min-height: 80px;
+  min-width: 80px;
+}
+
+.H2-title {
+  text-decoration: underline;
+}

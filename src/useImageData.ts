@@ -40,6 +40,7 @@ function useImageData(state : initialStateInterface = initialState) {
   });
 
   function readFile(file: File) {
+    setProcessing(true);
     const reader : FileReader = new FileReader();
     reader.onload = (event: Event) => {
       const image : HTMLImageElement = new Image();
@@ -63,7 +64,6 @@ function useImageData(state : initialStateInterface = initialState) {
       if(reader.result) {
         // call image onload event
         image.src = reader.result as string;
-        setProcessing(true);
       }
     };
     // close the reader

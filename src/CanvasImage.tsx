@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { convertToGrayScales } from "./pipeline";
 
+import "./CanvasImage.css";
+
 interface CanvasImageInterface {
   imageData: ImageData | null;
 }
@@ -24,7 +26,7 @@ function CanvasImage({ imageData }: CanvasImageInterface): React.ReactElement {
   }
 
   return (
-    <canvas width={imageData.width} height={imageData.height} ref={canvasRef}></canvas>
+    <canvas id="Canvas-image-container" width={imageData.width} height={imageData.height} ref={canvasRef}></canvas>
   );
 }
 
