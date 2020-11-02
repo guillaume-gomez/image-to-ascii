@@ -14,8 +14,54 @@ interface AsciiImageInterface {
 }
 
 function AsciiImage({ imageData, colorize, processing }: AsciiImageInterface): React.ReactElement {
-  const drawAsciiMemo = useMemo(() => drawAscii(imageData), [imageData]);
-  const drawAsciiWithColorMemo = useMemo( () => drawAsciiWithColor(imageData), [imageData]);
+
+  const drawAsciiMemo = useMemo(() => {
+    function drawAscii(imageData : ImageData | null) : string {
+      console.log("drawAscii");
+      if(!imageData) {
+        return "";
+      }
+      const grayScales = convertImageDataToGreyPixels(imageData);
+      const result = grayScales.reduce((asciiImage : string, grayScale : number, index : number) => {
+        let nextChars = getCharacterForGrayScale(grayScale);
+
+        if ((index + 1) % imageData.width === 0) {
+            nextChars += '\n';
+        }
+        return asciiImage + nextChars;
+      }, "");
+      return result;
+    }
+
+    return drawAscii(imageData);
+  }, [imageData]);
+
+  const drawAsciiWithColorMemo = useMemo( () => {
+    function drawAsciiWithColor(imageData : ImageData | null ) {
+      console.log("drawAsciiWithColor");
+      if(!imageData) {
+        return "";
+      }
+      const grayScales = convertImageDataToGreyPixels(imageData);
+      const _pixels : number[][] = pixels(imageData);
+      if(grayScales.length !== _pixels.length) {
+        return <></>;
+      }
+
+      let result = [];
+
+      for(let index = 0; index < grayScales.length; ++index) {
+        let nextChars = getCharacterForGrayScale(grayScales[index]);
+        if ((index + 1) % imageData.width === 0) {
+            result.push(<br key={index+"br"} />);
+        }
+        result.push(<span key={index} style={{color: pixelToCssColor(_pixels[index]) }}>{nextChars}</span>);
+      }
+      return result;
+    }
+
+    return drawAsciiWithColor(imageData);
+  }, [imageData]);
 
   function getCharacterForGrayScale(grayScale: number) {
     return grayRamp[Math.ceil((rampLength - 1) * grayScale / 255)];
@@ -37,46 +83,6 @@ function AsciiImage({ imageData, colorize, processing }: AsciiImageInterface): R
   function pixelToCssColor(pixel: number[]) : string {
     const [red, green, blue] = pixel;
     return `rgb(${red}, ${green}, ${blue})`;
-  }
-
-  function drawAscii(imageData : ImageData | null) : string {
-    console.log("drawAscii");
-    if(!imageData) {
-      return "";
-    }
-    const grayScales = convertImageDataToGreyPixels(imageData);
-    const result = grayScales.reduce((asciiImage : string, grayScale : number, index : number) => {
-      let nextChars = getCharacterForGrayScale(grayScale);
-
-      if ((index + 1) % imageData.width === 0) {
-          nextChars += '\n';
-      }
-      return asciiImage + nextChars;
-    }, "");
-    return result;
-  }
-
-  function drawAsciiWithColor(imageData : ImageData | null ) {
-    console.log("drawAsciiWithColor");
-    if(!imageData) {
-      return "";
-    }
-    const grayScales = convertImageDataToGreyPixels(imageData);
-    const _pixels : number[][] = pixels(imageData);
-    if(grayScales.length !== _pixels.length) {
-      return <></>;
-    }
-
-    let result = [];
-
-    for(let index = 0; index < grayScales.length; ++index) {
-      let nextChars = getCharacterForGrayScale(grayScales[index]);
-      if ((index + 1) % imageData.width === 0) {
-          result.push(<br key={index+"br"} />);
-      }
-      result.push(<span key={index} style={{color: pixelToCssColor(_pixels[index]) }}>{nextChars}</span>);
-    }
-    return result;
   }
 
   if(processing) {
