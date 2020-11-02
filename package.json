@@ -1,6 +1,6 @@
 {
   "name": "img-to-ascii",
-  "homepage": "https://guillaume-gomez.github.io/img-to-ascii",
+  "homepage": "./",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
