@@ -6,13 +6,29 @@ import "./Form.css"
 interface FormInterface {
   configuration: ConfigurationInterface;
   setConfigurationParam: (param: keyof ConfigurationInterface, value: string | number | boolean) => void;
+  readFile:  (file: File) => void;
+  hasFile: boolean;
+  submitCallback: () => void;
 }
 
-function Form({ configuration, setConfigurationParam }: FormInterface): React.ReactElement {
+function Form({ configuration, setConfigurationParam, readFile, hasFile, submitCallback }: FormInterface): React.ReactElement {
   const { maxWidth, maxHeight, colors, colorizeImage, autoScale } = configuration;
+
+  function onChangeFile(event: React.ChangeEvent<HTMLInputElement>) {
+    // get files
+    const files = event.target.files as FileList;
+    const file = files[0];
+    if(file) {
+      readFile(file);
+    }
+  }
+
   return (
     <div id="Form-content">
         <h2 className="H2-title">Setup</h2>
+        <p>
+          <input type="file" onChange={onChangeFile} />
+        </p>
         <div className="Slide-container">
           <div className="Slide-container-label">
             Max Width : {maxWidth}
@@ -44,6 +60,11 @@ function Form({ configuration, setConfigurationParam }: FormInterface): React.Re
           <div className="Slide-container-input">
             <input type="range" min={2} max={68} value={colors} className="slider" onChange={e => setConfigurationParam("colors", parseInt(e.target.value))} />
           </div>
+        </div>
+        <div className="Button-container">
+          <button type="button" disabled={!hasFile} onClick={submitCallback}>
+              Convert
+          </button>
         </div>
     </div>
   );
