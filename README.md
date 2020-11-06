@@ -1,4 +1,4 @@
-# Img ==> Ascii
+# Img => Ascii
 
 ![Preview](preview.gif)
 
