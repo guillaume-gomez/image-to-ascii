@@ -22,9 +22,12 @@
 
 #Ascii-container {
   min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 }
 
 .H2-title {
   text-decoration: underline;
 }
-
