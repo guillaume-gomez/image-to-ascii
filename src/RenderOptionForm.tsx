@@ -6,9 +6,11 @@ import "./RenderOptionForm.css";
 interface FormInterface {
   configuration: ConfigurationInterface;
   setConfigurationParam: (param: keyof ConfigurationInterface, value: string | number | boolean) => void;
+  saveAsImageCallback: () => void;
+  hasFile: boolean
 }
 
-function RenderOptionForm({ configuration, setConfigurationParam }: FormInterface): React.ReactElement {
+function RenderOptionForm({ configuration, setConfigurationParam, saveAsImageCallback, hasFile }: FormInterface): React.ReactElement {
   const { colorizeAscii, backgroundColorAscii } = configuration;
   return (
     <div id="Option">
@@ -22,6 +24,9 @@ function RenderOptionForm({ configuration, setConfigurationParam }: FormInterfac
           <div id="Color-input-container">
             <input type="color" id="background-color-ascii" name="background-color-ascii" value={backgroundColorAscii} onChange={e => setConfigurationParam("backgroundColorAscii", e.target.value)} />
           </div>
+        </div>
+        <div id="Convert">
+          <button disabled={!hasFile} onClick={saveAsImageCallback}>Save as image</button>
         </div>
     </div>
   );

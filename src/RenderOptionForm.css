@@ -42,3 +42,11 @@
 #Color-input-container {
   width: 30%;
 }
+
+#Convert {
+  padding: 10px;
+}
+
+#Convert > button {
+  height: 30px;
+}

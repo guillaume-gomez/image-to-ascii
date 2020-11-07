@@ -17,6 +17,8 @@ interface useDataImageInterface {
   image : ImageData | null;
   processing: boolean;
   readFile: (file: File) => void;
+  hasFile: boolean;
+  submit: () => void;
 }
 
 interface initialStateInterface {
@@ -42,6 +44,13 @@ function useImageData(state : initialStateInterface = initialState) {
   });
 
   function readFile(file: File) {
+    setFile(file);
+  }
+
+  function submit() {
+    if(!file) {
+      return;
+    }
     setProcessing(true);
     const reader : FileReader = new FileReader();
     reader.onload = (event: Event) => {
@@ -70,14 +79,13 @@ function useImageData(state : initialStateInterface = initialState) {
     };
     // close the reader
     reader.readAsDataURL(file);
-    setFile(file);
   }
 
   function setConfigurationParam(param: string, value: string | number) {
     setConfiguration({...configuration, [param]: value });
   }
 
-  return { image, processing, readFile, configuration, setConfigurationParam } as useDataImageInterface;
+  return { image, processing, hasFile: (file !== null), readFile, configuration, setConfigurationParam, submit } as useDataImageInterface;
 }
 
 export default useImageData;
