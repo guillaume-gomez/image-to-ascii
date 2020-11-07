@@ -11,7 +11,7 @@ import RenderOptionForm from "./RenderOptionForm";
 import "./ImageConverterToAscii.css";
 
 function ImageConverterToAscii(): React.ReactElement {
-  const { image, readFile, processing, configuration, setConfigurationParam } = useImageData();
+  const { image, hasFile, readFile, processing, configuration, setConfigurationParam, submit } = useImageData();
   const refImg = useRef(null);
 
   function onChangeFile(event: React.ChangeEvent<HTMLInputElement>) {
@@ -46,14 +46,12 @@ function ImageConverterToAscii(): React.ReactElement {
     }
   }
 
+
   return (
     <>
       <div id="Forms">
         <div className="Form-Item">
-          <Form configuration={configuration} setConfigurationParam={setConfigurationParam} />
-          <p>
-            <input type="file" onChange={onChangeFile} />
-          </p>
+          <Form configuration={configuration} setConfigurationParam={setConfigurationParam} readFile={readFile} hasFile={hasFile} submitCallback={submit}/>
         </div>
         <div className="Form-Item">
           <RenderOptionForm configuration={configuration} setConfigurationParam={setConfigurationParam} saveAsImageCallback={runConvert} hasFile={true}/>
