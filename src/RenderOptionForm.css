@@ -42,12 +42,3 @@
 #Color-input-container {
   width: 30%;
 }
-
-
-#hint {
-  font-size: 14px;
-  font-style: italic;
-  display: flex;
-  width: 48%;
-  margin-top: 5px;
-}
