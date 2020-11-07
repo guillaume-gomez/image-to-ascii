@@ -39,7 +39,7 @@ function AsciiImage({ imageData, colorize, processing }: AsciiImageInterface): R
         return "";
       }
 
-      let result : HTMLElement[] = [];
+      let result : React.ReactNode[] = [];
       const compressPixels: CompressPixel[] = compressImageData(imageData);
       compressPixels.forEach(({color, nbOccurences, char}, index) => {
         if(char === "\n") {
