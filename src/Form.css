@@ -4,6 +4,7 @@
   align-items: center;
 }
 
+
 .Slide-container {
   display: flex;
   justify-content: center;
@@ -39,4 +40,17 @@
 .Checkbox-container > input {
   width: 30%;
   margin: 0;
+}
+
+.Button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  padding: 5px;
+}
+
+.Button-container > button {
+  width: 20%;
+  height: 30px;
 }
