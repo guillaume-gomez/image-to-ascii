@@ -1,11 +1,7 @@
 import React, { useMemo } from "react";
-import { toGrayScale, pixels } from "./pipeline";
+import { toGrayScale, pixels, getCharacterForGrayScale, compressImageData, CompressPixel } from "./pipeline";
 
 import './AsciiImage.css';
-
-
-const grayRamp : string = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,"^`\'. ';
-const rampLength : number = grayRamp.length;
 
 interface AsciiImageInterface {
   imageData: ImageData | null;
@@ -42,30 +38,21 @@ function AsciiImage({ imageData, colorize, processing }: AsciiImageInterface): R
       if(!imageData) {
         return "";
       }
-      const grayScales = convertImageDataToGreyPixels(imageData);
-      const _pixels : number[][] = pixels(imageData);
-      if(grayScales.length !== _pixels.length) {
-        return <></>;
-      }
 
-      let result = [];
-
-      for(let index = 0; index < grayScales.length; ++index) {
-        let nextChars = getCharacterForGrayScale(grayScales[index]);
-        if ((index + 1) % imageData.width === 0) {
-            result.push(<br key={index+"br"} />);
+      let result : HTMLElement[] = [];
+      const compressPixels: CompressPixel[] = compressImageData(imageData);
+      compressPixels.forEach(({color, nbOccurences, char}, index) => {
+        if(char === "\n") {
+          result.push(<br key={index+"br"} />);
+        } else {
+          result.push(<span key={index} style={{color: pixelToCssColor(color)}}>{char.repeat(nbOccurences)}</span>);
         }
-        result.push(<span key={index} style={{color: pixelToCssColor(_pixels[index]) }}>{nextChars}</span>);
-      }
+      });
       return result;
     }
 
     return drawAsciiWithColor(imageData);
   }, [imageData]);
-
-  function getCharacterForGrayScale(grayScale: number) {
-    return grayRamp[Math.ceil((rampLength - 1) * grayScale / 255)];
-  }
 
   function convertImageDataToGreyPixels(imageData: ImageData) : number[] {
     let pixelsInGrey : number[] = [];
