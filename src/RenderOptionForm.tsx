@@ -19,7 +19,6 @@ function RenderOptionForm({ configuration, setConfigurationParam, saveAsImageCal
            <label htmlFor="Colorize">Colorize Ascii</label><br/>
            <input type="checkbox" name="Colorize" id="Colorize" checked={colorizeAscii} onChange={e => setConfigurationParam("colorizeAscii", !!e.target.checked)}/>
         </div>
-        <p className="hint">Toggle this option can takes time to rerender. Please be patient :) </p>
         <div className="ColorPalette">
           <label htmlFor="background-color-ascii">Background color ascii</label>
           <div id="Color-input-container">
