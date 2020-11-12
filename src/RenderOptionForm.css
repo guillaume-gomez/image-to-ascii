@@ -50,3 +50,11 @@
 #Convert > button {
   height: 30px;
 }
+
+#hint {
+  font-size: 14px;
+  font-style: italic;
+  display: flex;
+  width: 48%;
+  margin-top: 5px;
+}

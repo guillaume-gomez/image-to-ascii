@@ -37,8 +37,8 @@ function useImageData(state : initialStateInterface = initialState) {
     maxWidth: 80,
     maxHeight: 80,
     autoScale: true,
-    colorizeImage: false,
-    colorizeAscii: false,
+    colorizeImage: true,
+    colorizeAscii: true,
     colors: 12,
     backgroundColorAscii: "#1D2A49"
   });
