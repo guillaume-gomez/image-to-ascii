@@ -5,13 +5,13 @@
 }
 
 .App-header {
-  min-height: 10vh;
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: calc(10px + 2vmin);
+  font-size: 65px;
   background-color: #233358;
 }
 
@@ -25,6 +25,6 @@
   flex-direction: column;
   justify-content: center;
   background-color: #1B1B1E;
-  min-height: 5vh;
+  min-height: 8vh;
   font-size: 12px;
 }
