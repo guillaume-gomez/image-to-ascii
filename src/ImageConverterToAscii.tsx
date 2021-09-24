@@ -14,15 +14,6 @@ function ImageConverterToAscii(): React.ReactElement {
   const { image, hasFile, readFile, processing, configuration, setConfigurationParam, submit } = useImageData();
   const refImg = useRef(null);
 
-  function onChangeFile(event: React.ChangeEvent<HTMLInputElement>) {
-    // get files
-    const files = event.target.files as FileList;
-    const file = files[0];
-    if(file) {
-      readFile(file);
-    }
-  }
-
   function runConvert() {
     if(refImg && refImg.current) {
       const node : HTMLElement = (refImg.current! as HTMLElement);

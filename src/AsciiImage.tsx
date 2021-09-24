@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { toGrayScale, pixels, getCharacterForGrayScale, compressImageData, CompressPixel } from "./pipeline";
+import { toGrayScale, getCharacterForGrayScale, compressImageData, CompressPixel } from "./pipeline";
 
 import './AsciiImage.css';
 
