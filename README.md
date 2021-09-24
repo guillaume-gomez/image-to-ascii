@@ -2,7 +2,7 @@
 
 ![Preview](preview.gif)
 
-This repository allows you to convert an image to an ascii image.
+This repository allows you to convert an image to an ascii image by conserving colors.
 
 [Try Online](https://guillaume-gomez.github.io/image-to-ascii)
 
